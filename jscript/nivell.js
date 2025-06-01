@@ -31,6 +31,8 @@ export default class nivell extends Phaser.Scene {
         //Es diu capa de patrones 1 perque aixi es diu al JSON, si es canvia peta
         const layer = map.createLayer('Capa de patrones 1', tileset, 0, 0);
 
+        layer.setCollisionByProperty({ collides: true });
+
         // Afegim les posicions d'aparició del jugador
         const spawns = [
             {x: 0, y: 0, xP: 480, yP: 480},
@@ -55,7 +57,6 @@ export default class nivell extends Phaser.Scene {
             dreta: 'cotxeR',
             esquerra: 'cotxeL'
         });
-
         this.controls = this.input.keyboard.addKeys({
             adalt: Phaser.Input.Keyboard.KeyCodes.W,
             abaix: Phaser.Input.Keyboard.KeyCodes.S,
