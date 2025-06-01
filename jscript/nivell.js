@@ -10,6 +10,7 @@ export default class nivell extends Phaser.Scene {
         this.load.tilemapTiledJSON('map', '../mapa/prova2.json');
     }
 
+
     create(){
         this.player = new Player(this, 400, 300, 'player');
 
@@ -27,7 +28,10 @@ export default class nivell extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     }
 
+    //Aixo sera el bucle de joc!!
     update() {
         this.player.move(this.controls);
+        //Fer logica enemic??
+        //Verificar col·lisions??
     }
 };
