@@ -9,31 +9,38 @@ export default class nivell extends Phaser.Scene {
         this.load.image('tiles', '../mapa/tilemap.png');
         this.load.tilemapTiledJSON('map', '../mapa/prova2.json');
 
-        this.load.image('cotxeR', '../mapa/cotxeRight.png');
-        this.load.image('cotxeL', '../mapa/cotxeLeft.png');
-        this.load.image('cotxeU', '../mapa/cotxeUp.png');
-        this.load.image('cotxeD', '../mapa/cotxeDown.png');
-        
+        //Left i Right estan del reves pq ens vam equivocar, mes endavant canviar noms si ens recordem
+        this.load.image('cotxeR', '../assets/sprites/cotxeRight.png');
+        this.load.image('cotxeL', '../assets/sprites/cotxeLeft.png');
+        this.load.image('cotxeU', '../assets/sprites/cotxeUp.png');
+        this.load.image('cotxeD', '../assets/sprites/cotxeDown.png');
+
     }
 
 
     create(){
-        this.player = new Player(this, 400, 300, 'player');
 
+        const map = this.make.tilemap({ key: 'map' });
+        const tileset = map.addTilesetImage('ciutat', 'tiles');
+        const layer = map.createLayer('Capa de patrones 1', tileset, 0, 0);
+        /*
+        this.add.image(400, 300, 'cotxeR');
+        this.add.image(250, 250, 'cotxeL');
+        this.add.image(100, 100, 'cotxeU');
+        this.add.image(150, 150, 'cotxeD');
+        */
+        this.player = new Player(this, 400, 300, {
+            adalt: 'cotxeU',
+            abaix: 'cotxeD',
+            dreta: 'cotxeR',
+            esquerra: 'cotxeL'
+        });
         this.controls = this.input.keyboard.addKeys({
             adalt: Phaser.Input.Keyboard.KeyCodes.W,
             abaix: Phaser.Input.Keyboard.KeyCodes.S,
             esquerra: Phaser.Input.Keyboard.KeyCodes.A,
             dreta: Phaser.Input.Keyboard.KeyCodes.D
         });
-
-        const map = this.make.tilemap({ key: 'map' });
-        const tileset = map.addTilesetImage('ciutat', 'tiles');
-        const layer = map.createLayer('Capa de patrones 1', tileset, 0, 0);
-        this.add.image(400, 300, 'cotxeR');
-        this.add.image(250, 250, 'cotxeL');
-        this.add.image(100, 100, 'cotxeU');
-        this.add.image(150, 150, 'cotxeD');
 
 
 
