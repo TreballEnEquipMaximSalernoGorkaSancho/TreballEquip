@@ -30,8 +30,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
             this.body.setSize(30,20);
            this.setTexture(this.textura.dreta);
         }
-        //Aqui fem if i no else if per a poder fer moviments diagonals
-        if(controls.abaix.isDown){
+        //Aqui fem else if i no  if per a poder evitar fer moviments diagonals ja que fan coses rares amb la hitbox
+        else if(controls.abaix.isDown){
             this.setVelocityY(velocitat); //Per alguna rao abaix es positiu
             this.body.setSize(20,30);
             this.setTexture(this.textura.abaix);

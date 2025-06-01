@@ -1,5 +1,5 @@
 import Player from "./player.js";
-
+import Policia from "./policia.js"
 export default class nivell extends Phaser.Scene {
     constructor(){
         super('nivell');
@@ -41,22 +41,21 @@ export default class nivell extends Phaser.Scene {
 
         const randomSpawn = Phaser.Math.RND.pick(spawns); // Seleccionem un punt d'aparició aleatori entre els quatre
       
+        this.Policia = new Policia(this, randomSpawn.xP, randomSpawn.yP, {
+            adalt: 'policiaU',
+            abaix: 'policiaD',
+            dreta: 'policiaR',
+            esquerra: 'policiaL'
+        });
 
-        /*
-        this.add.image(400, 300, 'cotxeR');
-        this.add.image(250, 250, 'cotxeL');
-        this.add.image(100, 100, 'cotxeU');
-        this.add.image(150, 150, 'cotxeD');
-        */
 
-        this.add.image(randomSpawn.xP, randomSpawn.yP, 'policiaD');
-       
         this.player = new Player(this, randomSpawn.x, randomSpawn.y, {
             adalt: 'cotxeU',
             abaix: 'cotxeD',
             dreta: 'cotxeR',
             esquerra: 'cotxeL'
         });
+
         this.controls = this.input.keyboard.addKeys({
             adalt: Phaser.Input.Keyboard.KeyCodes.W,
             abaix: Phaser.Input.Keyboard.KeyCodes.S,
@@ -72,7 +71,7 @@ export default class nivell extends Phaser.Scene {
     //Aixo sera el bucle de joc!!
     update() {
         this.player.move(this.controls);
-        //Fer logica enemic??
+        //this.Policia.move();
         //Verificar col·lisions??
     }
 };
