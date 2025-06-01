@@ -8,6 +8,7 @@ export default class nivell extends Phaser.Scene {
     preload(){
         this.load.image('tiles', '../mapa/tilemap.png');
         this.load.tilemapTiledJSON('map', '../mapa/prova2.json');
+        //this.load.image('player',//RutaDelarxiu)
     }
 
 
