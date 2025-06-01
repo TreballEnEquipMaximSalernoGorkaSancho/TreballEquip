@@ -8,7 +8,12 @@ export default class nivell extends Phaser.Scene {
     preload(){
         this.load.image('tiles', '../mapa/tilemap.png');
         this.load.tilemapTiledJSON('map', '../mapa/prova2.json');
-        //this.load.image('player',//RutaDelarxiu)
+
+        this.load.image('cotxeR', '../mapa/cotxeRight.png');
+        this.load.image('cotxeL', '../mapa/cotxeLeft.png');
+        this.load.image('cotxeU', '../mapa/cotxeUp.png');
+        this.load.image('cotxeD', '../mapa/cotxeDown.png');
+        
     }
 
 
@@ -25,6 +30,12 @@ export default class nivell extends Phaser.Scene {
         const map = this.make.tilemap({ key: 'map' });
         const tileset = map.addTilesetImage('ciutat', 'tiles');
         const layer = map.createLayer('Capa de patrones 1', tileset, 0, 0);
+        this.add.image(400, 300, 'cotxeR');
+        this.add.image(250, 250, 'cotxeL');
+        this.add.image(100, 100, 'cotxeU');
+        this.add.image(150, 150, 'cotxeD');
+
+
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     }
