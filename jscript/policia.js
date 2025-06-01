@@ -18,8 +18,9 @@ export default class Policia extends Phaser.Physics.Arcade.Sprite {
         this.textura = textura
     }
 
-    move(pX,pY) {
-
+    seguirPlayer(player) {
+        const velocitat = 150;
+        this.scene.physics.moveToObject(this,player,velocitat);
     }
 
 }

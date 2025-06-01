@@ -57,22 +57,24 @@ export default class nivell extends Phaser.Scene {
             dreta: 'cotxeR',
             esquerra: 'cotxeL'
         });
+
         this.controls = this.input.keyboard.addKeys({
             adalt: Phaser.Input.Keyboard.KeyCodes.W,
             abaix: Phaser.Input.Keyboard.KeyCodes.S,
             esquerra: Phaser.Input.Keyboard.KeyCodes.A,
             dreta: Phaser.Input.Keyboard.KeyCodes.D
         });
-
-
-
+        this.physics.add.collider(this.player, layer);
+        this.physics.add.collider(this.Policia, layer);
+        this.physics.add.collider(this.player, this.Policia);
+        //this.camera.main.startFollow(this.player);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     }
 
     //Aixo sera el bucle de joc!!
     update() {
         this.player.move(this.controls);
-        //this.Policia.move();
+        this.Policia.seguirPlayer(this.player);
         //Verificar col·lisions??
     }
 };
