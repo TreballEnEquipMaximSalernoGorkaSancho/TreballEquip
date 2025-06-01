@@ -22,6 +22,7 @@ export default class nivell extends Phaser.Scene {
 
         const map = this.make.tilemap({ key: 'map' });
         const tileset = map.addTilesetImage('ciutat', 'tiles');
+        //Es diu capa de patrones 1 perque aixi es diu al JSON, si es canvia peta
         const layer = map.createLayer('Capa de patrones 1', tileset, 0, 0);
         /*
         this.add.image(400, 300, 'cotxeR');
