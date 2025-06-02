@@ -2,7 +2,7 @@ import nivell from "./nivell.js";
 
 const config = {
   type: Phaser.AUTO,
-  width: 480,
+  width: 960,
   height: 480,
   physics: {
     default: 'arcade',

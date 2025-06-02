@@ -35,10 +35,10 @@ export default class nivell extends Phaser.Scene {
 
         // Afegim les posicions d'aparició del jugador
         const spawns = [
-            {x: 0, y: 0, xP: 480, yP: 480},
-            {x: 0, y: 480, xP: 480, yP: 0},
-            {x: 480, y: 0, xP: 0, yP: 480},
-            {x: 480, y: 480, xP: 0, yP: 0}
+            {x: 0, y: 0, xP: 960, yP: 480},
+            {x: 0, y: 480, xP: 960, yP: 0},
+            {x: 960, y: 0, xP: 0, yP: 480},
+            {x: 960, y: 480, xP: 0, yP: 0}
         ];
 
         const randomSpawn = Phaser.Math.RND.pick(spawns); // Seleccionem un punt d'aparició aleatori entre els quatre
