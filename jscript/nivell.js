@@ -32,7 +32,7 @@ export default class nivell extends Phaser.Scene {
         const tileset = map.addTilesetImage('ciutat', 'tiles');
         //Es diu capa de patrones 1 perque aixi es diu al JSON, si es canvia peta
         const layer = map.createLayer('Capa de patrones 1', tileset, 0, 0);
-
+        this.map = map; //Ho guardem pel easystar
         layer.setCollisionByProperty({ collides: true });
 
         // Afegim les posicions d'aparició del jugador
@@ -69,6 +69,25 @@ export default class nivell extends Phaser.Scene {
             esquerra: Phaser.Input.Keyboard.KeyCodes.A,
             dreta: Phaser.Input.Keyboard.KeyCodes.D
         });
+
+        //Anem a crear el tilemap per a q el easystar entengui tot i el A* funcioni be  
+        console.log(EasyStar);  
+        this.easystar = new window.EasyStar.js(); //Fem window per a accedir al context global, sino peta
+        console.log(map.height);
+        console.log(map.width);
+        const grid = []; //Aixo sera el mapa en forma graf x algoritme
+        for(let y = 0; y<map.height; y++){ //Doble bucle normal dels d mtp1
+            const col = []; 
+            for(let x = 0; x<map.width;x++) {
+                const tile = map.getTileAt(x,y,true,'Capa de patrones 1'); //Capa de patrones ja q es el nom al json aquell
+                col.push(tile.collides ? 1 : 0); //guardem si es o no caminable amb 0 i 1, no ens rallem
+            }
+            grid.push(col);
+        }
+        //Ara fem el easystar (llibreria instalada)
+        
+        this.easystar.setGrid(grid);
+        this.easystar.setAcceptableTiles([0]); //Li diem q 0 es el caminable
 
         //Guardem el esc per a revisar pausa
         this.esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
