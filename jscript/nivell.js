@@ -21,6 +21,8 @@ export default class nivell extends Phaser.Scene {
         this.load.image('policiaU', '../assets/sprites/policiaUp.png');
         this.load.image('policiaD', '../assets/sprites/policiaDown.png');
 
+        //Sprite meta. Cambiar mes tard
+        this.load.image('meta','../assets/sprites/Meta.png');
     }
 
 
@@ -35,10 +37,10 @@ export default class nivell extends Phaser.Scene {
 
         // Afegim les posicions d'aparició del jugador
         const spawns = [
-            {x: 0, y: 0, xP: 960, yP: 480},
-            {x: 0, y: 480, xP: 960, yP: 0},
-            {x: 960, y: 0, xP: 0, yP: 480},
-            {x: 960, y: 480, xP: 0, yP: 0}
+            {x: 0, y: 0, xP: 960, yP: 480, xM: 930 , yM: 465},
+            {x: 0, y: 480, xP: 960, yP: 0, xM: 930 , yM:15},
+            {x: 960, y: 0, xP: 0, yP: 480, xM: 15 , yM:465},
+            {x: 960, y: 480, xP: 0, yP: 0, xM: 15 , yM: 15}
         ];
 
         const randomSpawn = Phaser.Math.RND.pick(spawns); // Seleccionem un punt d'aparició aleatori entre els quatre
@@ -50,6 +52,8 @@ export default class nivell extends Phaser.Scene {
             esquerra: 'policiaL'
         });
 
+        this.meta = this.physics.add.sprite(randomSpawn.xM,randomSpawn.yM,'meta');
+        this.meta.body.setImmovable(true); //Sino al tocar amb el cotxe es pot moure
 
         this.player = new Player(this, randomSpawn.x, randomSpawn.y, {
             adalt: 'cotxeU',
@@ -67,8 +71,11 @@ export default class nivell extends Phaser.Scene {
         this.physics.add.collider(this.player, layer);
         this.physics.add.collider(this.Policia, layer);
         this.physics.add.collider(this.player, this.Policia, ()=>{
-            this.scene.start('final')
+            this.scene.start('final',{resultat:'D'})
         });
+        this.physics.add.collider(this.player,this.meta,()=>{
+            this.scene.start('final',{resultat: 'V'})
+        })
         //this.camera.main.startFollow(this.player);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     }

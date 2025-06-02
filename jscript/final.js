@@ -5,15 +5,26 @@ export default class Final extends Phaser.Scene {
 
     preload(){
         this.load.image('gameOver','../assets/Pantalles/pantallaFinal.png')
+        this.load.image('gameWon','../assets/Pantalles/pantallaVictoria.png');
     };
 
-    create(){
+    init(R){
+        this.resultat = R.resultat
+    }
 
-        this.add.image(240,240,'gameOver').setDisplaySize(1450,480);
-        const textFinal = this.add.text(435,160,"Has Perdut!",{
+
+    create(){
+        const imatge = this.resultat === 'V' ? 'gameWon' : 'gameOver'
+        const missatgeRes = this.resultat === 'V' ? "Has Guanyat!" : "Has Perdut!"; //Si ho es fem el primer, sino el segon
+        const colorRes = this.resultat === 'V' ? '#00ff00' : '#ff0000';
+        const colorStroke = this.resultat ==='V' ? '#00ff00' : '#ff0000'
+
+        this.add.image(240,240,imatge).setDisplaySize(1450,480);
+
+        const textFinal = this.add.text(435,160,missatgeRes,{
             fontsize: '48px',
-            color: '#ff0000',
-            stroke: '#ff0000',
+            color: colorRes,
+            stroke: colorStroke,
             strokeThickness: 2
         });
 
