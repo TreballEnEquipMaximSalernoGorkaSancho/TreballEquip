@@ -66,7 +66,9 @@ export default class nivell extends Phaser.Scene {
         });
         this.physics.add.collider(this.player, layer);
         this.physics.add.collider(this.Policia, layer);
-        this.physics.add.collider(this.player, this.Policia);
+        this.physics.add.collider(this.player, this.Policia, ()=>{
+            this.scene.start('final')
+        });
         //this.camera.main.startFollow(this.player);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     }

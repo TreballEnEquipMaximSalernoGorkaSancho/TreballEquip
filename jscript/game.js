@@ -1,4 +1,5 @@
 import nivell from "./nivell.js";
+import Final from "./final.js";
 
 const config = {
   type: Phaser.AUTO,
@@ -11,7 +12,7 @@ const config = {
             debug: true
         }
   },
-  scene:[nivell]
+  scene:[nivell,Final]
 };
 
 const game = new Phaser.Game(config);
