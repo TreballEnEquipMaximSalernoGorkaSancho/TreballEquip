@@ -1,6 +1,6 @@
 import nivell from "./nivell.js";
 import Final from "./final.js";
-
+import MenuPausa from "./menuPausa.js";
 const config = {
   type: Phaser.AUTO,
   width: 960,
@@ -12,7 +12,7 @@ const config = {
             debug: true
         }
   },
-  scene:[nivell,Final]
+  scene:[nivell,Final,MenuPausa]
 };
 
 const game = new Phaser.Game(config);

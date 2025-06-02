@@ -62,12 +62,18 @@ export default class nivell extends Phaser.Scene {
             esquerra: 'cotxeL'
         });
 
+        //Aquests controls son estrictament pel vehicle, el tema de pausar anira fora per a evitar coses que no toquen a player
         this.controls = this.input.keyboard.addKeys({
             adalt: Phaser.Input.Keyboard.KeyCodes.W,
             abaix: Phaser.Input.Keyboard.KeyCodes.S,
             esquerra: Phaser.Input.Keyboard.KeyCodes.A,
             dreta: Phaser.Input.Keyboard.KeyCodes.D
         });
+
+        //Guardem el esc per a revisar pausa
+        this.esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+        //Fiquem col·lisions a tot el que toca i les funcions pertinents
         this.physics.add.collider(this.player, layer);
         this.physics.add.collider(this.Policia, layer);
         this.physics.add.collider(this.player, this.Policia, ()=>{
@@ -84,6 +90,10 @@ export default class nivell extends Phaser.Scene {
     update() {
         this.player.move(this.controls);
         this.Policia.seguirPlayer(this.player);
-        //Verificar col·lisions??
+        //Fem just down perque nomes ens interessa agafar 1 valor
+        if(Phaser.Input.Keyboard.JustDown(this.esc)){
+            this.scene.launch('MenuPausa'); //Fem launch pq ens interessa conservar
+            this.scene.pause();
+        }
     }
 };
