@@ -29,27 +29,41 @@ export default class Policia extends Phaser.Physics.Arcade.Sprite {
     seguirPlayer(player) {
         
         const velocitat = 150;
-        const maxAmplada = this.scene.map.width;
-        const maxAlçada = this.scene.map.height;
-        /*
         this.scene.physics.moveToObject(this,player,velocitat);
-        */
+        /*
        //Guardem la XY de policia i player per a fer tot
+       if(!this.timerMoure || this.timerMoure <= 0 ){ //Limitem cada cuan fa tot per a evitar cargar massa tot
+       const maxAmplada = this.scene.map.width;
+       const maxAlçada = this.scene.map.height;
        const poliX = Phaser.Math.Clamp(this.scene.map.worldToTileX(this.x),0,maxAmplada-1); //Important el -1 q es el q evita errors
-       const poliY = Phaser.Math.Clamp(this.scene.map.worldToTileX(this.y),0,maxAlçada-1);
+       const poliY = Phaser.Math.Clamp(this.scene.map.worldToTileY(this.y),0,maxAlçada-1);
        const playerX = Phaser.Math.Clamp(this.scene.map.worldToTileX(player.x),0,maxAmplada-1);
-       const playerY = Phaser.Math.Clamp(this.scene.map.worldToTileX(player.y),0,maxAlçada-1);
+       const playerY = Phaser.Math.Clamp(this.scene.map.worldToTileY(player.y),0,maxAlçada-1);
+
 
        this.scene.easystar.findPath(poliX,poliY,playerX,playerY,(path)=>{
-            if(path && path.length > 1){ //basicament que existeixi un cami i que no estem sobre el player respectivament
-                const monX = this.scene.map.tileToWorldX(path[1].x);
-                const monY =  this.scene.map.tileToWorldY(path[1].y);
-                this.scene.physics.moveTo(this,monX,monY,velocitat);
-            } else{
-                this.body.setVelocity(0,0); //Aixo sera si no tenim cami
-            }
+            this.path = path; //El path en si
+            this.pathI = 1; //Seguent punt on volem anar
        }); //Tot aixo es x definir el cami q farem
        this.scene.easystar.calculate(); //Important pq sino de poc serveix el reste
+       this.timerMoure = 20;
+        }else{
+            this.timerMoure--;
+        }
+        if(this.path && this.path.length > this.pathI){ //Mirem de tenir path i que el punt seguent estigui dins dels limits
+            const seguentPos = this.path[this.pathI];
+            const monX = this.scene.map.tileToWorldX(seguentPos.x)+this.scene.map.tileWidth/2; //Sumem amplada pq per defecte pille el borde abaix esquerra i dona problemes
+            const monY = this.scene.map.tileToWorldY(seguentPos.y)+this.scene.map.tileHeight/2;//mateix q adalt pero amb alçada
+            this.scene.physics.moveTo(this,monX,monY,velocitat); //ens movem
+
+            const distancia = Phaser.Math.Distance.Between(this.x,this.y,monX,monY); //Distancia entre player i poli per a veure q fer
+            if(distancia < 3){ //Si estem aprop
+                this.pathIndex++;
+            }
+        }else{ //Si no tenim cami o el seguent punt es invalid
+            this.body.setVelocity(0,0); 
+        }
+        */
     }
 
 }

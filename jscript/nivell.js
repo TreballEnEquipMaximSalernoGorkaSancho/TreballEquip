@@ -70,11 +70,12 @@ export default class nivell extends Phaser.Scene {
             dreta: Phaser.Input.Keyboard.KeyCodes.D
         });
 
+        /*
         //Anem a crear el tilemap per a q el easystar entengui tot i el A* funcioni be  
-        console.log(EasyStar);  
+        //console.log(EasyStar);  
         this.easystar = new window.EasyStar.js(); //Fem window per a accedir al context global, sino peta
-        console.log(map.height);
-        console.log(map.width);
+        //console.log(map.height);
+        //console.log(map.width);
         const grid = []; //Aixo sera el mapa en forma graf x algoritme
         for(let y = 0; y<map.height; y++){ //Doble bucle normal dels d mtp1
             const col = []; 
@@ -88,7 +89,8 @@ export default class nivell extends Phaser.Scene {
         
         this.easystar.setGrid(grid);
         this.easystar.setAcceptableTiles([0]); //Li diem q 0 es el caminable
-
+        */
+       
         //Guardem el esc per a revisar pausa
         this.esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
