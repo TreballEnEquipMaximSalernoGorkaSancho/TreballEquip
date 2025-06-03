@@ -70,6 +70,15 @@ export default class nivell extends Phaser.Scene {
             dreta: Phaser.Input.Keyboard.KeyCodes.D
         });
 
+        // Incorporem un temporitzador amb Phaser
+
+        this.timer = 30 // temps on comença el timer
+        this.tText = this.add.text(650, 5, "Temps: " + Math.ceil(this.timer), { // imprimim el comptador per pantalla
+            fontSize: "24px",
+            fill: "#000000",
+            fontFamily: "Lucida Console"
+        });
+
         /*
         //Anem a crear el tilemap per a q el easystar entengui tot i el A* funcioni be  
         //console.log(EasyStar);  
@@ -115,6 +124,13 @@ export default class nivell extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(this.esc)){
             this.scene.launch('MenuPausa'); //Fem launch pq ens interessa conservar
             this.scene.pause();
+        }
+
+        // actualitzem el comptador cada segon
+        if(this.timer > 0) {
+            this.timer -= this.game.loop.delta / 1000; // cada segon baixa un valor
+            if(this.timer < 0) this.timer = 0; // forcem el comptador a 0, que no segueixi baixant
+            this.tText.setText('Temps: ' + Math.ceil(this.timer));
         }
     }
 };
