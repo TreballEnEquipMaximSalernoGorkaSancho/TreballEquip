@@ -1,5 +1,6 @@
 import Player from "./player.js";
-import Policia from "./policia.js"
+import Policia from "./policia.js";
+import { rankings } from "./logicaRanking.js";
 export default class nivell extends Phaser.Scene {
     constructor(){
         super('nivell');
@@ -36,16 +37,19 @@ export default class nivell extends Phaser.Scene {
             case "easy":
                 this.opcions.temps = 60;
                 this.opcions.nPolicies = 1;
+                this.multiplicador = 0.5;
                 break;
 
             case "normal":
                 this.opcions.temps = 40;
                 this.opcions.nPolicies = 2;
+                this.multiplicador = 1;
                 break;
 
             case "hard":
                 this.opcions.temps = 20;
                 this.opcions.nPolicies = 3;
+                this.multiplicador = 5;
         }
 
         const map = this.make.tilemap({ key: 'map' });
@@ -149,6 +153,8 @@ export default class nivell extends Phaser.Scene {
             this.scene.start('final',{resultat:'D'})
         });
         this.physics.add.collider(this.player,this.meta,()=>{
+            this.puntuacio = this.timer * this.multiplicador
+            rankings.guardarPuntuacio(Math.round(this.puntuacio));
             this.scene.start('final',{resultat: 'V'})
         })
 
