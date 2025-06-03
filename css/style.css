@@ -10,6 +10,15 @@ button.center{
 	margin-top: 1rem;
 }
 
+.container-dificultat{
+	text-align: center;
+	margin: 10px auto;
+}
+.container-dificultat select{
+	display: block;
+	margin: 10px auto;
+}
+
 #title{
 	color:red;
 	text-align: center;
