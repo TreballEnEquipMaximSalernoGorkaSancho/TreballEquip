@@ -9,6 +9,10 @@ addEventListener('load', function() {
         window.location.assign("./html/opcions.html");
     });
 
+    this.document.getElementById('rankingBoto').addEventListener('click',
+    function(){
+        window.location.assign("./html/ranking.html");
+    });
 
     document.getElementById('sortirBoto').addEventListener('click', 
     function(){

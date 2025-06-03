@@ -1,4 +1,5 @@
-#title, .center{
+#title,
+.center {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -20,6 +21,35 @@ button.center{
 }
 
 #title{
-	color:red;
+	color: red;
 	text-align: center;
+	margin-block: 2rem;
+}
+
+.container {
+	width: 100vw;
+	height: 100%;
+	min-height: calc(100vh - 88px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 64px;
+}
+#rankings {
+	width: 100%;
+	font-size: 2rem;
+	line-height: 5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.rank {
+	width: 15%;
+	text-align: center;
+}
+
+.rank + .rank {
+	border-top: 1px solid #dbdbdb;
 }
