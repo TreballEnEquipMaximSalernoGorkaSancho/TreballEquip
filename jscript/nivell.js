@@ -28,6 +28,26 @@ export default class nivell extends Phaser.Scene {
 
     create(){
 
+        // Agafem les opcions entrades des de "options.html" i guardades a localStorage
+         this.opcions = JSON.parse(localStorage.opcions || JSON.stringify({}));
+
+        // Fem un switch per comprovar la dificultat escollida pel jugador
+        switch(this.opcions.dificultat) {
+            case "easy":
+                this.opcions.temps = 60;
+                this.opcions.nPolicies = 1;
+                break;
+
+            case "normal":
+                this.opcions.temps = 40;
+                this.opcions.nPolicies = 2;
+                break;
+
+            case "hard":
+                this.opcions.temps = 20;
+                this.opcions.nPolicies = 3;
+        }
+
         const map = this.make.tilemap({ key: 'map' });
         const tileset = map.addTilesetImage('ciutat', 'tiles');
         //Es diu capa de patrones 1 perque aixi es diu al JSON, si es canvia peta
@@ -35,12 +55,12 @@ export default class nivell extends Phaser.Scene {
         this.map = map; //Ho guardem pel easystar
         layer.setCollisionByProperty({ collides: true });
 
-        // Afegim les posicions d'aparició del jugador
+        // Afegim les posicions d'aparició del jugador i del/s policia/es
         const spawns = [
-            {x: 0, y: 0, xP: 960, yP: 480, xM: 930 , yM: 465},
-            {x: 0, y: 480, xP: 960, yP: 0, xM: 930 , yM:15},
-            {x: 960, y: 0, xP: 0, yP: 480, xM: 15 , yM:465},
-            {x: 960, y: 480, xP: 0, yP: 0, xM: 15 , yM: 15}
+            {x: 0, y: 0, xP: 960, yP: 480, xP2: 960, yP2: 0, xP3: 0, yP3: 480, xM: 930 , yM: 465},
+            {x: 0, y: 480, xP: 960, yP: 0, xP2: 0, yP2: 0, xP3: 960, yP3: 480, xM: 930 , yM:15},
+            {x: 960, y: 0, xP: 0, yP: 480, xP2: 0, yP2: 0, xP3: 960, yP3: 480, xM: 15 , yM:465},
+            {x: 960, y: 480, xP: 0, yP: 0, xP2: 960, yP2: 0, xP3: 0, yP3: 480, xM: 15 , yM: 15}
         ];
 
         const randomSpawn = Phaser.Math.RND.pick(spawns); // Seleccionem un punt d'aparició aleatori entre els quatre
@@ -51,6 +71,25 @@ export default class nivell extends Phaser.Scene {
             dreta: 'policiaR',
             esquerra: 'policiaL'
         });
+
+        // Si estem jugant en normal o difícil, afegim un segon policia
+        if(this.opcions.nPolicies > 1) {
+            this.Policia2 = new Policia(this, randomSpawn.xP2, randomSpawn.yP2, {
+            adalt: 'policiaU',
+            abaix: 'policiaD',
+            dreta: 'policiaR',
+            esquerra: 'policiaL'
+             });
+             // Si estem jugant en difícil, afegim un tercer policia
+             if(this.opcions.nPolicies > 2) {
+                this.Policia3 = new Policia(this, randomSpawn.xP3, randomSpawn.yP3, {
+                adalt: 'policiaU',
+                abaix: 'policiaD',
+                dreta: 'policiaR',
+                esquerra: 'policiaL'
+                });
+            }
+        } 
 
         this.meta = this.physics.add.sprite(randomSpawn.xM,randomSpawn.yM,'meta');
         this.meta.body.setImmovable(true); //Sino al tocar amb el cotxe es pot moure
@@ -72,7 +111,7 @@ export default class nivell extends Phaser.Scene {
 
         // Incorporem un temporitzador amb Phaser
 
-        this.timer = 30 // temps on comença el timer
+        this.timer = this.opcions.temps // temps on comença el timer
         this.tText = this.add.text(650, 5, "Temps: " + Math.ceil(this.timer), { // imprimim el comptador per pantalla
             fontSize: "24px",
             fill: "#000000",
@@ -112,6 +151,21 @@ export default class nivell extends Phaser.Scene {
         this.physics.add.collider(this.player,this.meta,()=>{
             this.scene.start('final',{resultat: 'V'})
         })
+
+        // Afegim col·lisions a la resta de policies, si en tenim
+        if(this.opcions.nPolicies > 1) {
+            this.physics.add.collider(this.Policia2, layer);
+            this.physics.add.collider(this.player, this.Policia2, ()=>{
+            this.scene.start('final',{resultat:'D'})
+            });
+
+            if(this.opcions.nPolicies > 2) {
+                this.physics.add.collider(this.Policia3, layer);
+                this.physics.add.collider(this.player, this.Policia3, ()=>{
+                this.scene.start('final',{resultat:'D'})
+                 });
+            }
+        }
         //this.camera.main.startFollow(this.player);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     }
@@ -120,6 +174,14 @@ export default class nivell extends Phaser.Scene {
     update() {
         this.player.move(this.controls);
         this.Policia.seguirPlayer(this.player);
+
+        // Programem el seguiment dels altres policies si en tenim
+        if(this.opcions.nPolicies > 1) {
+            this.Policia2.seguirPlayer(this.player);
+            if(this.opcions.nPolicies > 2) {
+                this.Policia3.seguirPlayer(this.player);
+            }
+        }
         //Fem just down perque nomes ens interessa agafar 1 valor
         if(Phaser.Input.Keyboard.JustDown(this.esc)){
             this.scene.launch('MenuPausa'); //Fem launch pq ens interessa conservar
