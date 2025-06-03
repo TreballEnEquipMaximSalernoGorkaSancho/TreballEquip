@@ -27,7 +27,7 @@ export default class Final extends Phaser.Scene {
             stroke: colorStroke,
             strokeThickness: 2
         });
-
+        //Aixo es visual, per a que faci l'efecte de creixer i disminuir
         this.tweens.add({
             targets: textFinal,
             scale: {from: 1, to: 1.1},
