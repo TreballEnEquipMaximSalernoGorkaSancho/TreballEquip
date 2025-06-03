@@ -40,16 +40,17 @@ export default class nivell extends Phaser.Scene {
                 this.multiplicador = 0.5;
                 break;
 
-            case "normal":
-                this.opcions.temps = 40;
-                this.opcions.nPolicies = 2;
-                this.multiplicador = 1;
-                break;
-
             case "hard":
                 this.opcions.temps = 20;
                 this.opcions.nPolicies = 3;
                 this.multiplicador = 5;
+                break;
+
+            default: // Normal
+                this.opcions.temps = 40;
+                this.opcions.nPolicies = 2;
+                this.multiplicador = 1;
+                break;
         }
 
         const map = this.make.tilemap({ key: 'map' });
