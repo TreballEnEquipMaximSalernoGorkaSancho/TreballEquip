@@ -129,7 +129,10 @@ export default class nivell extends Phaser.Scene {
         // actualitzem el comptador cada segon
         if(this.timer > 0) {
             this.timer -= this.game.loop.delta / 1000; // cada segon baixa un valor
-            if(this.timer < 0) this.timer = 0; // forcem el comptador a 0, que no segueixi baixant
+            if(this.timer < 0) {
+                 this.timer = 0; // forcem el comptador a 0, que no segueixi baixant
+                 this.scene.start('final',{resultat:'D'})
+            }
             this.tText.setText('Temps: ' + Math.ceil(this.timer));
         }
     }
